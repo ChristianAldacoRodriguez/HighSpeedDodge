@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
     public WorldGenerator worldGeneratorController;
     public ProximityDetector proximityDetectorController;
     public UIController uiController;
+    public WorldFloorController worldFloorController;
 
     [Header("Scoring")]
     public float score = 0f;
@@ -48,6 +49,7 @@ public class GameController : MonoBehaviour
     {
         score += (delta * currentMultiplier);
         uiController.SetScore( Mathf.FloorToInt(score));
+        worldFloorController.AddPlayerDistance(delta);
     }
 
     public void OnSpaceshipMoves(int side)
