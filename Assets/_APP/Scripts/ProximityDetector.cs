@@ -8,9 +8,15 @@ public class ProximityDetector : MonoBehaviour
 
     public Transform startPos;
     public float rayMaxDistance = 30f;
+    public float distance = 30f;
 
-    public Action<float> onDetectSomething;
+    public Action<float> onUpdateProximity;
     public Transform cube;
+
+    private void Start()
+    {
+        distance = rayMaxDistance;
+    }
 
     private void Update()
     {
@@ -18,8 +24,8 @@ public class ProximityDetector : MonoBehaviour
         if(Physics.Raycast(startPos.position, startPos.forward, out hitInfo, rayMaxDistance))
         {
 
-            float distance = Vector3.Distance(startPos.position, hitInfo.point);
-            onDetectSomething?.Invoke(distance);
+            distance = Vector3.Distance(startPos.position, hitInfo.point);
+            onUpdateProximity?.Invoke(distance);
 
             //cube.localScale = Vector3.one * ((1f / 30f) * distance);
             cube.localScale = Vector3.one * ((1f / rayMaxDistance) * distance);
@@ -27,7 +33,9 @@ public class ProximityDetector : MonoBehaviour
         }
         else
         {
+            distance = rayMaxDistance;
             cube.localScale = Vector3.one;
+            onUpdateProximity?.Invoke(rayMaxDistance);
         }
 
     }
